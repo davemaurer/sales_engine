@@ -13,6 +13,7 @@ class CustomerTest < Minitest::Test
               updated_at: "2012-03-27 14:54:09 UTC"
             }
   end
+  
   def test_it_has_an_id
     customer = Customer.new(data, nil)
     assert_equal 1, customer.id
