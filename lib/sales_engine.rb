@@ -10,11 +10,11 @@ class SalesEngine
   attr_reader :customer_repository,
               :invoice_repository,
               :merchant_repository,
-              # :item_repository,
-              # :invoice_item_repository,
+              :item_repository,
+              :invoice_item_repository,
               :transaction_repository
 
-  def initialize(filepath) #we need to take in whatever we parse here
+  def initialize(filepath)
     @filepath = filepath
   end
 
@@ -31,7 +31,4 @@ class SalesEngine
     @transaction_repository   = TransactionRepository.new(transaction_data, self)
   end
 
-  def invoice_by_id(id)
-    invoice_repository.find_by_customer_id(id).invoice_id
-  end
 end
