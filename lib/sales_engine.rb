@@ -7,16 +7,25 @@ require_relative 'parser'
 require_relative 'transaction_repository'
 
 class SalesEngine
-  def initialize() #we need to take in whatever we parse here
+  attr_reader :merchant_repository,
+              :invoice_repository,
+              :item_repository,
+              :invoice_item_repository,
+              :customer_repository,
+              :transaction_repository,
 
+  def initialize(filepath) #we need to take in whatever we parse here
+    @filepath = filepath
   end
 
   def startup     #and pass that into here. Then we send the relevant information down the right chain (ie. merchant = merchant chain)
-    engine.merchant_repository
-    engine.invoice_repository
-    engine.item_repository
-    engine.invoice_item_repository
-    engine.customer_repository
-    engine.transaction_repository
+    customer_data = Parser.parse("#{@filepath}/customers.csv")
+    @customer_repository     = CustomerRepository.new(customer_data, self)
+
+    # merchant_repository
+    # invoice_repository
+    # item_repository
+    # invoice_item_repository
+    # transaction_repository
   end
 end
