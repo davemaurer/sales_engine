@@ -9,26 +9,33 @@ require_relative 'transaction_repository'
 class SalesEngine
   attr_reader :customer_repository,
               :invoice_repository
-              # :merchant_repository,
-              # :item_repository,
-              # :invoice_item_repository,
-              # :transaction_repository,
+              :merchant_repository,
+              :item_repository,
+              :invoice_item_repository,
+              :transaction_repository
 
-  def initialize(filepath) #we need to take in whatever we parse here
+  def initialize(filepath)
     @filepath = filepath
   end
 
-  def startup     #and pass that into here. Then we send the relevant information down the right chain (ie. merchant = merchant chain)
+  def startup
     customer_data            = Parser.parse("#{@filepath}/customers.csv")
     @customer_repository     = CustomerRepository.new(customer_data, self)
 
-    # invoice_data        = Parser.parse("#{@filepath}/invoices.csv")
-    # @invoice_repository = InvoiceRepository.new(invoice_data, self)
+    invoice_data             = Parser.parse("#{@filepath}/invoices.csv")
+    @invoice_repository      = InvoiceRepository.new(invoice_data, self)
 
-    # merchant_repository
-    # item_repository
-    # invoice_item_repository
-    # transaction_repository
+    merchant_data            = Parser.parse("#{@filepath}/merchants.csv")
+    @merchant_repository     = MerchantRepository.new(merchant_data, self)
+
+    item_data                = Parser.parse("#{@filepath}/items.csv")
+    @item_repository         = ItemRepository.new(item_data, self)
+
+    invoice_item_data        = Parser.parse("#{@filepath}/invoice_items.csv")
+    @invoice_item_repository = InvoiceItemRepository.new(invoice_item_data, self)
+
+    transaction_data         = Parser.parse("#{@filepath}/transactions.csv")
+    @transaction_repository  = TransactionRepository.new(transactions_data, self)
   end
 
   def invoice_by_id(id)
