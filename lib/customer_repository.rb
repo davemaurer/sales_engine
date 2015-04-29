@@ -4,8 +4,8 @@ class CustomerRepository
   attr_reader :customers
 
   def initialize(data, engine)
-    @customers   = data.map { |row| Customer.new(row, self) }
     @engine = engine
+    @customers   = data.map { |row| Customer.new(row, self) }
   end
 
   def all
@@ -54,9 +54,5 @@ class CustomerRepository
 
   def find_all_by_updated_at(updated_at)
     customers.find_all { |customer| customer.updated_at == updated_at }
-  end
-
-  def find_invoices_by_customer_id(id)
-    engine.invoice_by_id(id)
   end
 end

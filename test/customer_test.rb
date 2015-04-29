@@ -2,7 +2,6 @@ require_relative '../lib/customer'
 require_relative 'test_helper'
 
 class CustomerTest < Minitest::Test
-
   attr_accessor :data
 
   def setup
@@ -13,7 +12,7 @@ class CustomerTest < Minitest::Test
               updated_at: "2012-03-27 14:54:09 UTC"
             }
   end
-  
+
   def test_it_has_an_id
     customer = Customer.new(data, nil)
     assert_equal 1, customer.id
