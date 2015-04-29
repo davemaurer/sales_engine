@@ -68,4 +68,12 @@ class InvoiceRepositoryTest < Minitest::Test
   def test_it_can_find_all_invoices_by_updated_at_date
     assert_equal 2, invoice_repository.find_all_by_updated_at("2012-03-24 15:54:10 UTC").count
   end
+
+  def test_it_can_find_all_transactions_by_invoice_id
+    assert_equal 2, invoice_repository.find_transactions_by_invoice_id(5).count
+  end
+
+  def test_it_can_find_all_invoice_items_by_invoice_id
+    assert_equal 5, invoice_repository.find_invoice_items_by_invoice_id(1).count
+  end
 end
