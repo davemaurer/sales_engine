@@ -76,4 +76,16 @@ class InvoiceRepositoryTest < Minitest::Test
   def test_it_can_find_all_invoice_items_by_invoice_id
     assert_equal 5, invoice_repository.find_invoice_items_by_invoice_id(1).count
   end
+
+  def test_it_can_find_all_items_by_invoice_id
+    assert_equal 5, invoice_repository.find_invoice_items_by_invoice_id(1).count
+  end
+
+  def test_it_can_find_a_customer_by_customer_id
+    assert_equal 1, invoice_repository.find_customer_by_customer_id(1).id
+  end
+
+  def test_it_can_find_a_merchant_by_merchant_id
+    assert_equal 1, invoice_repository.find_merchant_by_merchant_id(1).id
+  end
 end

@@ -17,4 +17,10 @@ class Transaction
     @updated_at = data[:updated_at]
     @repository = repository
   end
+
+  def invoice
+    transaction_repository.find_invoice_by_invoice_id(invoice_id)
+  end
 end
+
+# invoice returns an instance of Invoice associated with this object
