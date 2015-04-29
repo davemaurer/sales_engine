@@ -46,11 +46,11 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_it_can_find_all_customers_by_id
-    assert_equal 1, customer_repository.find_all_by_id(3).count
+    assert_equal 2, customer_repository.find_all_by_id(4).count
   end
 
   def test_it_can_find_all_customers_by_first_name
-    assert_equal 1, customer_repository.find_all_by_first_name("Mariah").count
+    assert_equal 2, customer_repository.find_all_by_first_name("Leanne").count
   end
 
   def test_it_can_find_all_customers_by_last_name
