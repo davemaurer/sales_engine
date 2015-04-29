@@ -6,13 +6,13 @@ class ItemRepositoryTest < Minitest::Test
   attr_reader :item_repository
 
   def setup
-    engine = SalesEngine.new("./data")
+    engine = SalesEngine.new("./test/fixtures")
     engine.startup
     @item_repository = engine.item_repository
   end
 
   def test_it_loads_all_items
-  assert_equal 2483, item_repository.all.count
+  assert_equal 5, item_repository.all.count
   end
 
   def test_it_finds_a_random_item
@@ -66,15 +66,15 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_can_find_all_items_by_merchant_id
-    assert_equal 15, item_repository.find_all_by_merchant_id(1).count
+    assert_equal 5, item_repository.find_all_by_merchant_id(1).count
   end
 
   def test_it_can_find_all_items_by_created_at_date
-    assert_equal 170, item_repository.find_all_by_created_at("2012-03-27 14:53:59 UTC").count
+    assert_equal 5, item_repository.find_all_by_created_at("2012-03-27 14:53:59 UTC").count
   end
 
   def test_it_can_find_all_items_by_updated_at_date
-    assert_equal 170, item_repository.find_all_by_updated_at("2012-03-27 14:53:59 UTC").count
+    assert_equal 5, item_repository.find_all_by_updated_at("2012-03-27 14:53:59 UTC").count
   end
 
 end
