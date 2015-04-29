@@ -56,4 +56,12 @@ class MerchantRepositoryTest < Minitest::Test
   def test_it_can_find_all_merchants_by_updated_at_date
     assert_equal 5, merchant_repository.find_all_by_updated_at("2012-03-27 14:53:59 UTC").count
   end
+
+  def test_it_can_find_all_items_by_merchant_id
+    assert_equal 5, merchant_repository.find_items_by_id(1).count
+  end
+
+  def test_it_can_find_all_invoices_by_merchant_id
+    assert_equal 2, merchant_repository.find_invoices_by_id(33).count
+  end
 end

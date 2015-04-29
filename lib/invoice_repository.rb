@@ -2,7 +2,7 @@ require_relative 'invoice'
 
 class InvoiceRepository
   attr_reader :invoices,
-    :data
+              :engine
 
   def initialize(data, engine)
     @invoices = data.map { |row| Invoice.new(row, self) }
@@ -65,7 +65,11 @@ class InvoiceRepository
     invoices.find_all { |invoice| invoice.updated_at == updated_at }
   end
 
-  def find_invoices_by_invoice_id(id)
-    engine.invoice_by_invoice_id(id)
+  def find_transactions_by_invoice_id(id)
+    engine.find_transactions_by_invoice_id(id)
+  end
+
+  def find_invoice_items_by_invoice_id(id)
+    engine.find_invoice_items_by_invoice_id(id)
   end
 end

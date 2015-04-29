@@ -33,7 +33,19 @@ class SalesEngine
     @transaction_repository   = TransactionRepository.new(transaction_data, self)
   end
 
-  def find_items_by_merchant(id)
-    item_repository.find_all_by_merchant_id(merchant_id)
+  def find_items_by_merchant_id(id)
+    item_repository.find_all_by_merchant_id(id)
+  end
+
+  def find_invoices_by_merchant_id(id)
+    invoice_repository.find_all_by_merchant_id(id)
+  end
+
+  def find_transactions_by_invoice_id(id)
+    transaction_repository.find_all_by_invoice_id(id)
+  end
+
+  def find_invoice_items_by_invoice_id(id)
+    invoice_item_repository.find_all_by_invoice_id(id)
   end
 end

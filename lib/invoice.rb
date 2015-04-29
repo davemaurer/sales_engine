@@ -15,4 +15,21 @@ class Invoice
     @created_at = data[:created_at]
     @updated_at = data[:updated_at]
   end
+
+  def transactions
+    transaction_repository.find_transactions_by_invoice_id(id)
+  end
+
+  def invoice_items
+    transaction_repository.find_invoice_items_by_invoice_id(id)
+  end
 end
+
+
+
+# Invoice
+#
+# invoice_items returns a collection of associated InvoiceItem instances
+# items returns a collection of associated Items by way of InvoiceItem objects
+# customer returns an instance of Customer associated with this object
+# merchant returns an instance of Merchant associated with this object
