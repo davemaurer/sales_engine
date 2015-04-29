@@ -1,4 +1,5 @@
 require_relative '../lib/customer'
+require_relative '../lib/sales_engine'
 require_relative 'test_helper'
 
 class CustomerTest < Minitest::Test
@@ -36,5 +37,13 @@ class CustomerTest < Minitest::Test
   def test_it_has_a_updated_at
     customer = Customer.new(data, nil)
     assert_equal "2012-03-27 14:54:09 UTC", customer.updated_at
+  end
+
+  def test_it_can_find_all_invoices
+    engine = SalesEngine.new("./test/fixtures")
+    engine.startup
+    customer_repository = engine.customer_repository
+    customer = Customer.new(customer_repository, nil)
+    assert_equal Invoice, customer.invoices.class
   end
 end

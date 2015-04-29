@@ -64,4 +64,8 @@ class CustomerRepositoryTest < Minitest::Test
   def test_it_can_find_all_customers_by_updated_at_date
     assert_equal 4, customer_repository.find_all_by_updated_at("2012-03-27 14:54:10 UTC").count
   end
+
+  def test_it_can_find_all_invoices_by_customer_id
+    assert_equal 26, customer_repository.find_all_invoices_by_customer_id(1).merchant_id
+  end
 end
