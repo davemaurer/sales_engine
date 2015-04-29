@@ -1,12 +1,15 @@
 require_relative 'merchant'
 
 class MerchantRepository
-  attr_reader :merchants,
-              :data
+  attr_reader :merchants
 
   def initialize(data, engine)
     @merchants = data.map { |row| Merchant.new(row, self) }
     @engine = engine
+  end
+
+  def inspect
+    "#<#{self.class} #{@merchants.size} rows>"
   end
 
   def all
@@ -51,5 +54,9 @@ class MerchantRepository
 
   def find_invoices_by_merchant_id(id)
     engine.invoice_by_merchant_id(id)
+  end
+
+  def find_items_by_id(id)
+    engine.find_items_by_merchant(id)
   end
 end
