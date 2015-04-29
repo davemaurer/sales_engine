@@ -21,8 +21,8 @@ class SalesEngine
   def startup     #and pass that into here. Then we send the relevant information down the right chain (ie. merchant = merchant chain)
     customer_data             = Parser.parse("#{@filepath}/customers.csv")
     @customer_repository      = CustomerRepository.new(customer_data, self)
-    # invoice_data            = Parser.parse("#{@filepath}/invoices.csv")
-    # @invoice_repository     = InvoiceRepository.new(invoice_data, self)
+    invoice_data              = Parser.parse("#{@filepath}/invoices.csv")
+    @invoice_repository       = InvoiceRepository.new(invoice_data, self)
     merchant_data             = Parser.parse("#{@filepath}/merchants.csv")
     @merchant_repository      = MerchantRepository.new(merchant_data, self)
     # item_repository         =
