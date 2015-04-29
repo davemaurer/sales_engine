@@ -1,4 +1,4 @@
-require_relative 'test_helper'
+require_relative '../test/test_helper'
 require_relative '../lib/sales_engine'
 require_relative '../lib/customer_repository'
 
@@ -12,7 +12,7 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_it_can_find_all_customers
-    assert_equal 5, customer_repository.all.count
+    assert_equal 5, @customer_repository.all.count
   end
 
   def test_it_can_find_a_random_customer

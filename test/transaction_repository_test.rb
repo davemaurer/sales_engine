@@ -2,7 +2,7 @@ require_relative '../test/test_helper'
 require_relative '../lib/sales_engine'
 require_relative '../lib/transaction_repository'
 
-class CustomerRepositoryTest < Minitest::Test
+class TransactionRepositoryTest < Minitest::Test
   attr_reader :transaction_repository
 
   def setup
