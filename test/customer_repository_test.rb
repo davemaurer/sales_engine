@@ -19,6 +19,7 @@ class CustomerRepositoryTest < Minitest::Test
     assert_equal Customer, customer_repository.random.class
     a = []
     b = []
+    assert_equal a, b
     100.times { a << customer_repository.random }
     100.times { b << customer_repository.random }
     refute_equal a, b
