@@ -1,3 +1,4 @@
+require_relative '../lib/merchant_repository'
 require_relative '../lib/merchant'
 require_relative 'test_helper'
 
@@ -41,5 +42,10 @@ class MerchantTest < Minitest::Test
   def test_invoices
     merchant = Merchant.new(data, FakeRepo.new)
     assert_equal "found invoice 1", merchant.invoices
+  end
+
+  def test_transactions
+    merchant = Merchant.new(data, MerchantRepository.new)
+    assert_equal "successful", merchant.transactions
   end
 end

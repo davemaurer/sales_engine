@@ -34,7 +34,7 @@ class ItemRepository
   end
 
   def find_by_unit_price(unit_price)
-    items.find { |item| item.description == unit_price }
+    items.find { |item| item.unit_price == unit_price }
   end
 
   def find_by_merchant_id(merchant_id)
