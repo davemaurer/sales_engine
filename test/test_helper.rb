@@ -27,26 +27,26 @@ class FakeRepo
   end
 end
 
-#
-# class SimpleSalesEngine < SalesEngine
-#   attr_reader :customer_repository,
-#               :invoice_repository,
-#               :merchant_repository,
-#               :item_repository,
-#               :invoice_item_repository,
-#               :transaction_repository,
-#               :repo_data
-#
-#   def initialize(repo_data)
-#     @repo_data = repo_data
-#   end
-#
-#   def startup
-#     @customer_repository     = CustomerRepository.new(repo_data[:customers], self)
-#     @invoice_repository      = InvoiceRepository.new(repo_data[:invoices], self)
-#     @merchant_repository     = MerchantRepository.new([], self)
-#     @item_repository         = ItemRepository.new([], self)
-#     @invoice_item_repository = InvoiceItemRepository.new([], self)
-#     @transaction_repository  = TransactionRepository.new([], self)
-#   end
-# end
+
+class SimpleSalesEngine < SalesEngine
+  attr_reader :customer_repository,
+              :invoice_repository,
+              :merchant_repository,
+              :item_repository,
+              :invoice_item_repository,
+              :transaction_repository,
+              :repo_data
+
+  def initialize(repo_data)
+    @repo_data = repo_data
+  end
+
+  def startup
+    @customer_repository     = CustomerRepository.new(repo_data[:customers], self)
+    @invoice_repository      = InvoiceRepository.new(repo_data[:invoices], self)
+    @merchant_repository     = MerchantRepository.new([], self)
+    @item_repository         = ItemRepository.new([], self)
+    @invoice_item_repository = InvoiceItemRepository.new([], self)
+    @transaction_repository  = TransactionRepository.new([], self)
+  end
+end

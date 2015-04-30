@@ -38,21 +38,24 @@ class CustomerTest < Minitest::Test
     customer = Customer.new(data, nil)
     assert_equal "2012-03-27 14:54:09 UTC", customer.updated_at
   end
-end
-
-#
-#   def engine_for(repo_data)
-#     engine = SimpleSalesEngine.new(repo_data)
-#     engine.startup
-#     engine
-#   end
-#
-#   def test_it_can_find_all_invoices
-#     engine = engine_for({
-#       customers: [{id: 1}],
-#       invoices:  [{id: 49, customer_id: 1}, {id: 30, customer_id: 2}]
-#     })
-#     customer = engine.customer_repository.find_by_id(1)
-#     assert_equal [49], customer.invoices.map { |invoice| invoice.id }
-#   end
 # end
+
+  def engine_for(repo_data)
+    engine = SimpleSalesEngine.new(repo_data)
+    engine.startup
+    engine
+  end
+
+  def test_it_can_find_all_invoices
+    engine = engine_for({
+      customers: [{id: 1}, {id: 2}],
+      invoices:  [{id: 49, customer_id: 1}, {id: 30, customer_id: 2}]
+    })
+
+    customer1 = engine.customer_repository.find_by_id(1)
+    customer2 = engine.customer_repository.find_by_id(2)
+
+    assert_equal [49], customer1.invoices.map { |invoice| invoice.id }
+    assert_equal [30], customer2.invoices.map { |invoice| invoice.id }
+  end
+end

@@ -20,17 +20,21 @@ class Merchant
     @repository.find_invoices_by_id(id)
   end
 
-  def revenue(date = nil)
-    call invoices, and get invoice_id for each merchant
-    if invoice.status is successful, get invoice_item for each invoice_id
-    multiply price x quantity
-  end
+  # def revenue(date = nil)
+  #   invoices.invoice_items.find {}
+  #
+  #
+  #   call invoices, and get invoice_id for each merchant
+  #   if invoice.status is successful, get invoice_item for each invoice_id
+  #   multiply price x quantity
+  # end
 
   def transactions
-    invoices.map { |invoice| invoice.transactions}
+    require 'pry'; binding.pry
+    invoices.map { |invoice| invoice.transactions }
   end
 
   def successful_transactions
-    transactions.find { |transaction| transaction.result == "successful"}
+    transactions.find { |transaction| transaction.result == "successful" }
   end
 end
