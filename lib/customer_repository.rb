@@ -8,6 +8,10 @@ class CustomerRepository
     @customers  = data.map { |attributes|Customer.new(attributes, self) }
   end
 
+  def inspect
+  "#<#{self.class} #{@merchants.size} rows>"
+  end
+
   def all
     customers
   end

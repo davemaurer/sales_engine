@@ -9,9 +9,14 @@ class InvoiceItemRepository
     @invoice_items = data.map { |row| InvoiceItem.new(row, self) }
   end
 
+  def inspect
+    "#<#{self.class} #{@merchants.size} rows>"
+  end
+
   def all
     invoice_items
   end
+
   def random
     invoice_items.sample
   end
@@ -57,7 +62,7 @@ class InvoiceItemRepository
   end
 
   def find_all_by_quantity(quantity)
-    invoice_items.find_all { |invoice_item| invoice_item.invoice_id == quantity }
+    invoice_items.find_all { |invoice_item| invoice_item.quantity == quantity }
   end
 
   def find_all_by_unit_price(unit_price)

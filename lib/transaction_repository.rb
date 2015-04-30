@@ -9,6 +9,10 @@ class TransactionRepository
     @engine = engine
   end
 
+  def inspect
+    "#<#{self.class} #{@merchants.size} rows>"
+  end
+
   def all
     transactions
   end
