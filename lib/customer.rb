@@ -11,11 +11,10 @@ class Customer
     @last_name  = data[:last_name]
     @created_at = data[:created_at]
     @updated_at = data[:updated_at]
+    @repository = repository
   end
 
   def invoices
-    customer_repository.find_all_invoices_by_customer_id(id)
+    @repository.find_all_invoices_by_customer_id(id)
   end
 end
-
-# invoices returns a collection of Invoice instances associated with this object.

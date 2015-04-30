@@ -5,7 +5,7 @@ class CustomerRepository
               :engine
   def initialize(data, engine)
     @engine = engine
-    @customers   = data.map { |row| Customer.new(row, self) }
+    @customers  = data.map { |attributes|Customer.new(attributes, self) }
   end
 
   def all
