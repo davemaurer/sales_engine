@@ -1,7 +1,8 @@
 require_relative 'item'
 
 class ItemRepository
-  attr_reader :items
+  attr_reader :items,
+              :engine
 
   def initialize(data, engine)
     @engine = engine
@@ -70,5 +71,13 @@ class ItemRepository
 
   def find_all_by_updated_at(updated_at)
     items.find_all { |item| item.updated_at == updated_at }
+  end
+
+  def find_all_invoice_items_by_item_id(id)
+    engine.find_all_invoice_items_by_item_id(id)
+  end
+
+  def find_merchant_by_merchant_id(merchant_id)
+    engine.find_merchant_by_merchant_id(merchant_id)
   end
 end

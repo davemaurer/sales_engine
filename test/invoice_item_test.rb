@@ -45,8 +45,19 @@ class Invoiceinvoice_itemTest < Minitest::Test
     invoice_item = InvoiceItem.new(data, nil)
     assert_equal "2012-03-27 14:54:09 UTC", invoice_item.created_at
   end
+
   def test_it_has_a_updated_at
     invoice_item = InvoiceItem.new(data, nil)
     assert_equal "2012-03-27 14:54:09 UTC", invoice_item.updated_at
+  end
+
+  def test_invoice
+    invoice_item = InvoiceItem.new(data, FakeRepo.new)
+    assert_equal "found invoice 1", invoice_item.invoice
+  end
+
+  def test_item
+    invoice_item = InvoiceItem.new(data, FakeRepo.new)
+    assert_equal "found item 539", invoice_item.item
   end
 end

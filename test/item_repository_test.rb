@@ -77,4 +77,11 @@ class ItemRepositoryTest < Minitest::Test
     assert_equal 5, item_repository.find_all_by_updated_at("2012-03-27 14:53:59 UTC").count
   end
 
+  def test_find_all_invoice_items_by_item_id
+    assert_equal 1, item_repository.find_all_invoice_items_by_item_id(539).count
+  end
+
+  def test_find_merchant_by_merchant_id
+    assert_equal "Klein, Rempel and Jones", item_repository.find_merchant_by_merchant_id(2).name
+  end
 end

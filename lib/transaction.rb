@@ -19,7 +19,7 @@ class Transaction
   end
 
   def invoice
-    transaction_repository.find_invoice_by_invoice_id(invoice_id)
+    @repository.find_invoice_by_invoice_id(invoice_id)
   end
 end
 

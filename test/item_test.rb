@@ -45,8 +45,19 @@ class ItemTest < Minitest::Test
     item = Item.new(data, nil)
     assert_equal "2012-03-27 14:53:59 UTC", item.created_at
   end
+
   def test_it_has_a_updated_at
     item = Item.new(data, nil)
     assert_equal "2012-03-27 14:53:59 UTC", item.updated_at
+  end
+
+  def test_invoice_items
+    item = Item.new(data, FakeRepo.new)
+    assert_equal "found 1 items", item.invoice_items
+  end
+
+  def test_merchant
+    item = Item.new(data, FakeRepo.new)
+    assert_equal "found 1 merchant", item.merchant
   end
 end

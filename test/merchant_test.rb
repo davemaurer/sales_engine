@@ -38,11 +38,8 @@ class MerchantTest < Minitest::Test
     assert_equal "2012-03-27 14:53:59 UTC", merchant.updated_at
   end
 
-  def test_it_can_find_invoices_using_merchant_repository
-    repository = Minitest::Mock.new
-    merchant = Merchant.new(data, repository)
-    repository.expect(:find_all_invoices_by_merchant_id, "pizza", [1])
-    merchant.invoices
-    repository.verify
+  def test_invoices
+    merchant = Merchant.new(data, FakeRepo.new)
+    assert_equal "found invoice 1", merchant.invoices
   end
 end
