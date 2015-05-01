@@ -5,6 +5,7 @@ require_relative 'test_helper'
 class CustomerTest < Minitest::Test
   attr_accessor :data
 
+  include TestHelpers
   def setup
     @data = { id: 1,
               first_name: "Joey",
@@ -38,13 +39,6 @@ class CustomerTest < Minitest::Test
     customer = Customer.new(data, nil)
     assert_equal "2012-03-27 14:54:09 UTC", customer.updated_at
   end
-# end
-
-  def engine_for(repo_data)
-    engine = SimpleSalesEngine.new(repo_data)
-    engine.startup
-    engine
-  end
 
   def test_it_can_find_all_invoices
     engine = engine_for({
@@ -55,7 +49,7 @@ class CustomerTest < Minitest::Test
     customer1 = engine.customer_repository.find_by_id(1)
     customer2 = engine.customer_repository.find_by_id(2)
 
-    assert_equal [49], customer1.invoices.map { |invoice| invoice.id }
-    assert_equal [30], customer2.invoices.map { |invoice| invoice.id }
+    assert_equal [49], customer1.invoices.map(&:id)
+    assert_equal [30], customer2.invoices.map(&:id)
   end
 end

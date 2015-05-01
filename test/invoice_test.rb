@@ -4,6 +4,8 @@ require_relative 'test_helper'
 class InvoiceTest < Minitest::Test
   attr_reader :data, :invoice
 
+  include TestHelpers
+
   def setup
     @data = {
       id: 1,
@@ -42,5 +44,17 @@ class InvoiceTest < Minitest::Test
 
   def test_it_has_an_updated_at_element
     assert_equal "2012-03-25 09:54:09 UTC", invoice.updated_at
+  end
+
+  def test_transactions
+    engine = engine_for({
+      invoices:     [{id: 1}, {id: 2}],
+      transactions: [{id: 30, invoice_id: 1}, {id: 67, invoice_id: 2}],
+    })
+    invoice1 = engine.invoice_repository.find_by_id(1)
+    invoice2 = engine.invoice_repository.find_by_id(2)
+
+    assert_equal [30], invoice1.transactions.map(&:id)
+    assert_equal [67], invoice2.transactions.map(&:id)
   end
 end

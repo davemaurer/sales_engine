@@ -45,7 +45,7 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_an_item_by_date_updated
-    assert_equal 75107, item_repository.find_by_updated_at("2012-03-27 14:53:59 UTC").unit_price
+    assert_equal 1, item_repository.find_by_updated_at("2012-03-27 14:53:59 UTC").id
   end
 
   def test_it_can_find_all_items_by_id

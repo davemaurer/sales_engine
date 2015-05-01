@@ -4,6 +4,8 @@ require_relative '../lib/item'
 class ItemTest < Minitest::Test
   attr_accessor :data
 
+  include TestHelpers
+
   def setup
     @data = { id: 1,
               name:  "Item Qui Esse",
@@ -33,7 +35,7 @@ class ItemTest < Minitest::Test
 
   def test_it_has_a_unit_price
     item = Item.new(data, nil)
-    assert_equal 75107, item.unit_price
+    assert_equal 1, item.id
   end
 
   def test_it_has_a_merchant_id
@@ -52,12 +54,29 @@ class ItemTest < Minitest::Test
   end
 
   def test_invoice_items
-    item = Item.new(data, FakeRepo.new)
-    assert_equal "found 1 items", item.invoice_items
-  end
+      engine = engine_for({
+        items: [{id: 1}, {id: 2}],
+        invoice_items:  [{id: 49, item_id: 1}, {id: 30, item_id: 2}]
+      })
+
+      item1 = engine.item_repository.find_by_id(1)
+      item2 = engine.item_repository.find_by_id(2)
+
+      assert_equal [49], item1.invoice_items.map(&:id)
+      assert_equal [30], item2.invoice_items.map(&:id)
+    end
 
   def test_merchant
-    item = Item.new(data, FakeRepo.new)
-    assert_equal "found 1 merchant", item.merchant
+  skip
+    engine = engine_for({
+      merchants: [{id: 1}, {id: 2}],
+      items:     [{id: 49, item_id: 1}, {id: 30, item_id: 2}]
+    })
+
+    item1 = engine.item_repository.find_by_id(1)
+    item2 = engine.item_repository.find_by_id(2)
+
+    assert_equal [49], item1.merchant.id
+    assert_equal [30], item2.merchant.id
   end
 end

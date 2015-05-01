@@ -4,6 +4,8 @@ require_relative '../lib/invoice_item'
 class Invoiceinvoice_itemTest < Minitest::Test
   attr_reader :data
 
+  include TestHelpers
+
   def setup
     @data = { id: 1,
               item_id: 539,
@@ -52,12 +54,31 @@ class Invoiceinvoice_itemTest < Minitest::Test
   end
 
   def test_invoice
-    invoice_item = InvoiceItem.new(data, FakeRepo.new)
-    assert_equal "found invoice 1", invoice_item.invoice
+    engine = engine_for({
+      invoice_items:  [{id: 1}, {id: 2}],
+      invoices:       [{id: 15, invoice_id: 1}, {id: 20, invoice_id: 2}],
+    })
+
+    invoice_item1 = engine.invoice_item_repository.find_by_id(1)
+    invoice_item2 = engine.invoice_item_repository.find_by_id(2)
+
+    assert_equal [15], invoice_item1.invoice.map(&:id)
+    assert_equal [20], invoice_item2.invoice.map(&:id)
   end
 
   def test_item
-    invoice_item = InvoiceItem.new(data, FakeRepo.new)
-    assert_equal "found item 539", invoice_item.item
+    engine = engine_for({
+      items:         [{id: 1}, {id: 2}],
+      invoice_items: [
+        {id: 30, item_id: 1},
+        {id: 67, item_id: 2}
+      ],
+    })
+
+    invoice_item1 = engine.invoice_item_repository.find_by_id(30)
+    invoice_item2 = engine.invoice_item_repository.find_by_id(67)
+
+    assert_equal 1, invoice_item1.item.id
+    assert_equal 2, invoice_item2.item.id
   end
 end
