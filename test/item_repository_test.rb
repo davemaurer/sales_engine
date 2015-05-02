@@ -32,8 +32,7 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_an_item_by_unit_price
-    skip
-    assert_equal 1, item_repository.find_by_unit_price(75107).id
+    assert_equal 1, item_repository.find_by_unit_price(BigDecimal.new(75107)/100).id
   end
 
   def test_it_finds_an_item_by_merchant_id
@@ -61,8 +60,7 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_can_find_all_items_by_unit_price
-    skip
-    assert_equal 1, item_repository.find_all_by_unit_price(75107).count
+    assert_equal 1, item_repository.find_all_by_unit_price(BigDecimal.new(75107)/100).count
   end
 
   def test_it_can_find_all_items_by_merchant_id

@@ -22,7 +22,7 @@ module TestHelpers
     def startup
       @customer_repository     = CustomerRepository.new(repo_data.fetch(:customers, []), self)
       @invoice_repository      = InvoiceRepository.new(repo_data.fetch(:invoices, []), self)
-      @merchant_repository     = MerchantRepository.new([], self)
+      @merchant_repository     = MerchantRepository.new(repo_data.fetch(:merchants, []), self)
       @item_repository         = ItemRepository.new(repo_data.fetch(:items, []), self)
       @invoice_item_repository = InvoiceItemRepository.new(repo_data.fetch(:invoice_items, []), self)
       @transaction_repository  = TransactionRepository.new(repo_data.fetch(:transactions, []), self)

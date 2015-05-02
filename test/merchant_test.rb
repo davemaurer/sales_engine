@@ -4,6 +4,8 @@ require_relative 'test_helper'
 
 class MerchantTest < Minitest::Test
 
+  include TestHelpers
+
   attr_reader :data
 
   def setup
