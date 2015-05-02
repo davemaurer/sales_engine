@@ -68,14 +68,13 @@ class ItemTest < Minitest::Test
 
   def test_merchant
     engine = engine_for({
-      items: [{id: 1}, {id: 2}],
+      items:         [{id: 1}, {id: 2}],
       merchants:     [{id: 49, item_id: 1}, {id: 30, item_id: 2}]
     })
 
-    item1 = engine.item_repository.find_by_id(1)
-    item2 = engine.item_repository.find_by_id(2)
-
-    assert_equal [49], item1.merchant.id
-    assert_equal [30], item2.merchant.id
+    merchant1 = engine.item_repository.find_merchant_by_merchant_id(49)
+    merchant2 = engine.item_repository.find_merchant_by_merchant_id(30)
+    assert_equal 49, merchant1.id
+    assert_equal 30, merchant2.id
   end
 end
