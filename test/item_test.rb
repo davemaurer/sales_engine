@@ -67,10 +67,9 @@ class ItemTest < Minitest::Test
     end
 
   def test_merchant
-  skip
     engine = engine_for({
-      merchants: [{id: 1}, {id: 2}],
-      items:     [{id: 49, item_id: 1}, {id: 30, item_id: 2}]
+      items: [{id: 1}, {id: 2}],
+      merchants:     [{id: 49, item_id: 1}, {id: 30, item_id: 2}]
     })
 
     item1 = engine.item_repository.find_by_id(1)
