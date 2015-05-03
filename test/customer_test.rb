@@ -52,4 +52,8 @@ class CustomerTest < Minitest::Test
     assert_equal [49], customer1.invoices.map(&:id)
     assert_equal [30], customer2.invoices.map(&:id)
   end
+
+  def test_successful_transactions
+    skip
+  end
 end
