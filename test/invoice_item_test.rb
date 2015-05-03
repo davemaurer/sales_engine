@@ -53,7 +53,6 @@ class Invoiceinvoice_itemTest < Minitest::Test
     assert_equal "2012-03-27 14:54:09 UTC", invoice_item.updated_at
   end
 
-
   def test_invoice
     engine = engine_for({
         invoices: [{id: 1}, {id: 2}],
@@ -69,7 +68,6 @@ class Invoiceinvoice_itemTest < Minitest::Test
     assert_equal 1, invoice_item1.invoice.id
     assert_equal 2, invoice_item2.invoice.id
   end
-
 
   def test_item
     engine = engine_for({
