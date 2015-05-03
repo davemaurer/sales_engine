@@ -3,6 +3,7 @@ require_relative 'customer'
 class CustomerRepository
   attr_reader :customers,
               :engine
+
   def initialize(data, engine)
     @engine = engine
     @customers  = data.map { |attributes| Customer.new(attributes, self) }
