@@ -72,4 +72,14 @@ class MerchantRepository
   def successful_invoice_items
     engine.successful_invoice_items
   end
+
+  def find_customers_with_pending_invoices(invoice)
+    engine.find_customers_with_pending_invoices(invoice)
+  end
+
+  def revenue(date)
+    merchants.reduce(0) do |sum, merchant|
+      sum + merchant.revenue(date)
+    end.flatten
+  end
 end

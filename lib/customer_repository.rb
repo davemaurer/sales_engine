@@ -64,4 +64,8 @@ class CustomerRepository
   def find_all_invoices_by_customer_id(id)
     engine.find_all_invoices_by_customer_id(id)
   end
+
+  def find_customers_with_pending_invoices(invoice)
+    find_all_by_id(invoice.customer_id)
+  end
 end

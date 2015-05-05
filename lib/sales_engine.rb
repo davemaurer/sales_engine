@@ -96,4 +96,8 @@ class SalesEngine
   def successful_invoice_items
     invoice_item_repository.successful_invoice_items
   end
+
+  def find_customers_with_pending_invoices(invoice)
+    customer_repository.find_customers_with_pending_invoices(invoice)
+  end
 end

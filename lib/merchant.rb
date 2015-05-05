@@ -34,7 +34,7 @@ class Merchant
   end
 
   def total_revenue
-    successful_invoice_items.map { |invoice_item| invoice_item.quantity * invoice_item.unit_price }.reduce(:+)
+    @total_revenue ||= successful_invoice_items.map { |invoice_item| invoice_item.quantity * invoice_item.unit_price }.reduce(:+)
   end
 
   def revenue_by_date(date)
@@ -44,7 +44,7 @@ class Merchant
     x = successful_invoice_items.select do |invoice_item|
       whatever.any? do |invoice|
       invoice.id == invoice_item.invoice_id
-    end
+      end
     end
     x.map { |invoice_item| invoice_item.quantity * invoice_item.unit_price }.reduce(:+)
   end
@@ -54,10 +54,28 @@ class Merchant
   end
 
   def successful_invoice_items
-    repository.successful_invoice_items.select do |invoice_item|
+    @successful_invoice_items ||= repository.successful_invoice_items.select do |invoice_item|
       successful_invoices.any? do |invoice|
         invoice.id == invoice_item.invoice_id
       end
+    end
+  end
+
+  def customers
+    successful_invoices.map { |invoice| invoice.customer }
+  end
+
+  def favorite_customer
+    customers.max_by { |customer| customers.count(customer) }
+  end
+
+  def pending_invoices
+    invoices - successful_invoices
+  end
+
+  def customers_with_pending_invoices
+    pending_invoices.flat_map do |invoice|
+      repository.find_customers_with_pending_invoices(invoice)
     end
   end
 end
