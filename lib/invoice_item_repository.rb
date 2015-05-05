@@ -84,4 +84,8 @@ class InvoiceItemRepository
   def find_item_by_item_id(item_id)
     engine.find_item_by_item_id(item_id)
   end
+
+  def successful_invoice_items
+    engine.successful_invoices.map { |invoice| invoice.invoice_items }.flatten
+  end
 end

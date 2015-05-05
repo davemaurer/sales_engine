@@ -64,4 +64,12 @@ class MerchantRepository
   def find_invoices_by_id(id)
     engine.find_invoices_by_merchant_id(id)
   end
+
+  def successful_invoices
+    engine.successful_invoices
+  end
+
+  def successful_invoice_items
+    engine.successful_invoice_items
+  end
 end
