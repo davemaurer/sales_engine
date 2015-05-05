@@ -88,4 +88,10 @@ class InvoiceRepository
   def find_merchant_by_merchant_id(merchant_id)
     engine.find_mechant_by_merchant_id(merchant_id)
   end
+
+  def successful_invoices
+    @successful_invoices ||= engine.successful_transactions.map do |tranny|
+       find_all_by_id(tranny.invoice_id)
+    end.flatten
+  end
 end

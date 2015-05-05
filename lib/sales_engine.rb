@@ -84,4 +84,16 @@ class SalesEngine
   def find_merchant_by_merchant_id(merchant_id)
     merchant_repository.find_by_id(merchant_id)
   end
+
+  def successful_invoices
+    invoice_repository.successful_invoices
+  end
+
+  def successful_transactions
+    transaction_repository.find_all_by_result("success")
+  end
+
+  def successful_invoice_items
+    invoice_item_repository.successful_invoice_items
+  end
 end

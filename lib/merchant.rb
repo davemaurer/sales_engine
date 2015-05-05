@@ -2,7 +2,8 @@ class Merchant
   attr_reader :id,
               :name,
               :created_at,
-              :updated_at
+              :updated_at,
+              :repository
 
   def initialize(data, repository)
     @id         = data[:id].to_i
@@ -20,21 +21,43 @@ class Merchant
     @repository.find_invoices_by_id(id)
   end
 
-  # def revenue(date = nil)
-  #   invoices.invoice_items.find {}
-  #
-  #
-  #   call invoices, and get invoice_id for each merchant
-  #   if invoice.status is successful, get invoice_item for each invoice_id
-  #   multiply price x quantity
-  # end
-
   def transactions
-    require 'pry'; binding.pry
     invoices.map { |invoice| invoice.transactions }
   end
 
-  def successful_transactions
-    transactions.find { |transaction| transaction.result == "successful" }
+  def revenue(date = nil)
+    if date.nil?
+      total_revenue
+    else
+      revenue_by_date(date)
+    end
+  end
+
+  def total_revenue
+    successful_invoice_items.map { |invoice_item| invoice_item.quantity * invoice_item.unit_price }.reduce(:+)
+  end
+
+  def revenue_by_date(date)
+    whatever = successful_invoices.select do |invoice|
+      Date.parse(invoice.created_at) == date
+    end
+    x = successful_invoice_items.select do |invoice_item|
+      whatever.any? do |invoice|
+      invoice.id == invoice_item.invoice_id
+    end
+    end
+    x.map { |invoice_item| invoice_item.quantity * invoice_item.unit_price }.reduce(:+)
+  end
+
+  def successful_invoices
+    @successful_invoices ||= repository.successful_invoices.select { |invoice| invoice.merchant_id == id }
+  end
+
+  def successful_invoice_items
+    repository.successful_invoice_items.select do |invoice_item|
+      successful_invoices.any? do |invoice|
+        invoice.id == invoice_item.invoice_id
+      end
+    end
   end
 end
