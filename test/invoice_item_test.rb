@@ -58,6 +58,25 @@ class InvoiceItemTest < Minitest::Test
     assert_equal "2012-03-27 14:54:09 UTC", invoice_item.updated_at
   end
 
+<<<<<<< HEAD
+  def test_invoice
+    engine = engine_for({
+        invoices: [{id: 1}, {id: 2}],
+        invoice_items: [
+          {id: 30, invoice_id: 1},
+          {id: 67, invoice_id: 2}
+        ],
+      })
+
+    invoice_item1 = engine.invoice_item_repository.find_by_id(30)
+    invoice_item2 = engine.invoice_item_repository.find_by_id(67)
+
+    assert_equal 1, invoice_item1.invoice.id
+    assert_equal 2, invoice_item2.invoice.id
+  end
+
+=======
+>>>>>>> a32ba4c18d7989ef2b45cc26ac4824d1a56d30b6
   def test_item
     invoice_item = InvoiceItem.new(data.merge(id: 1), FakeInvoiceItemRepo.new)
 
