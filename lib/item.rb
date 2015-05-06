@@ -36,55 +36,19 @@ class Item
   end
 
   def revenue
-    selected_invoices ||= invoice_items.map { |invoice_item|
-      invoice_item.invoice }
+    successful_invoice_items ||= invoice_items.select { |invoice_item|
+      invoice_item.successful? }
 
-    selected_invoices.uniq!
-
-    selected_transactions ||= selected_invoices.map { |invoice|
-      invoice.transactions }.flatten
-
-    successful_transactions ||= selected_transactions.select { |transaction|
-      transaction.result == "success" }
-
-    successful_invoices ||= successful_transactions.map { |transaction|
-      transaction.invoice }
-
-    successful_invoice_items ||= successful_invoices.map { |invoice|
-      invoice.invoice_items }.flatten
-
-    invoice_items_for_item ||= successful_invoice_items.select { |invoice_item|
-      invoice_item.item_id == id }
-
-    item_revenue = invoice_items_for_item.map { |invoice_item|
-      invoice_item.unit_price * invoice_item.quantity }
-
-    item_revenue.flatten.reduce(0, :+)
+    successful_invoice_items.reduce(0) { |sum, invoice_item|
+      sum + (invoice_item.unit_price * invoice_item.quantity) }
   end
 
   def quantity_sold
-     selected_invoices ||= invoice_items.map { |invoice_item|
-       invoice_item.nil? ? [] : invoice_item.invoice }
+    successful_invoice_items ||= invoice_items.select { |invoice_item|
+      invoice_item.successful? }
 
-     selected_invoices.uniq!
-
-     selected_transactions ||= selected_invoices.map { |invoice|
-       invoice.transactions }.flatten
-
-     successful_transactions ||= selected_transactions.select { |transaction|
-       transaction.result == "success" }
-
-     successful_invoices ||= successful_transactions.map { |transaction|
-       transaction.invoice }.uniq
-
-     successful_invoice_items ||= successful_invoices.map { |invoice|
-       invoice.invoice_items }.flatten
-
-     invoice_items_for_item ||= successful_invoice_items.select { |invoice_item|
-       invoice_item.item_id == id }
-
-     invoice_items_for_item.flatten.map { |invoice_item|
-       invoice_item.quantity }.reduce(:+)
+    successful_invoice_items.reduce(0) { |sum, invoice_item|
+      sum + invoice_item.quantity }
    end
 
   private
