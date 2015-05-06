@@ -5,12 +5,12 @@ class MerchantRepository
               :engine
 
   def initialize(data, engine)
-    @merchants = data.map { |row| Merchant.new(row, self) }
-    @engine = engine
+    @engine    = engine
+    @merchants = data.map {|attributes| Merchant.new(attributes, self) }
   end
 
   def inspect
-    "#<#{self.class} #{@merchants.size} rows>"
+    "#<#{self.class} #{merchants.size} rows>"
   end
 
   def all
@@ -22,54 +22,56 @@ class MerchantRepository
   end
 
   def find_by_id(id)
-    merchants.find { |merchant| merchant.id == id }
-  end
-
-  def find_by_name(name)
-    merchants.find { |merchant| merchant.name == name }
-  end
-
-  def find_by_created_at(created_at)
-    merchants.find { |merchant| merchant.created_at == created_at }
-  end
-
-  def find_by_updated_at(updated_at)
-    merchants.find { |merchant| merchant.updated_at == updated_at }
+    merchants.find {|merchant| merchant.id == id}
   end
 
   def find_all_by_id(id)
-    merchants.find_all { |merchant| merchant.id == id }
+    merchants.find_all {|merchant| merchant.id == id}
+  end
+
+  def find_by_name(name)
+    merchants.find {|merchant| merchant.name == name}
   end
 
   def find_all_by_name(name)
-    merchants.find_all { |merchant| merchant.name == name }
+    merchants.find_all {|merchant| merchant.name == name}
+  end
+
+  def find_by_created_at(created_at)
+    merchants.find {|merchant| merchant.created_at == created_at}
   end
 
   def find_all_by_created_at(created_at)
-    merchants.find_all { |merchant| merchant.created_at == created_at }
+    merchants.find_all {|merchant| merchant.created_at == created_at}
+  end
+
+  def find_by_updated_at(updated_at)
+    merchants.find {|merchant| merchant.updated_at == updated_at}
   end
 
   def find_all_by_updated_at(updated_at)
-    merchants.find_all { |merchant| merchant.updated_at == updated_at }
+    merchants.find_all {|merchant| merchant.updated_at == updated_at}
   end
 
-  def find_invoices_by_merchant_id(id)
-    engine.invoice_by_merchant_id(id)
+  def find_all_items_by_merchant_id(id)
+    engine.find_all_items_by_merchant_id(id)
   end
 
-  def find_items_by_id(id)
-    engine.find_items_by_merchant_id(id)
+  def find_all_invoices_by_merchant_id(id)
+    engine.find_all_invoices_by_merchant_id(id)
   end
 
-  def find_invoices_by_id(id)
-    engine.find_invoices_by_merchant_id(id)
+  def revenue(date)
+    merchants.map { |merchant| merchant.revenue(date) }.reduce(0, :+)
   end
 
-  def successful_invoices
-    engine.successful_invoices
+  def most_revenue(x)
+    merchants.sort_by do |merchant|
+      merchant.revenue
+    end.reverse.first(x)
   end
 
-  def successful_invoice_items
-    engine.successful_invoice_items
+  def most_items(x)
+   merchants.sort_by { |merchant| merchant.items_sold }.reverse.first(x)
   end
 end

@@ -1,25 +1,26 @@
-require_relative 'test_helper'
 require_relative '../lib/item'
+require_relative 'test_helper'
 
 class ItemTest < Minitest::Test
   attr_accessor :data
 
-  include TestHelpers
-
   def setup
-    @data = { id: 1,
-              name:  "Item Qui Esse",
-              description: "Nihil autem sit odio inventore deleniti. Est laudantium ratione distinctio laborum. Minus voluptatem nesciunt assumenda dicta voluptatum porro",
-              unit_price: 75107,
-              merchant_id: 1,
+    @data = { id: "1",
+              name: "Item Qui Esse",
+              description:  "Nihil autem sit odio inventore deleniti. Est laudantium ratione distinctio laborum. Minus voluptatem nesciunt assumenda dicta voluptatum porro.",
+              unit_price: "75107",
+              merchant_id: "1",
               created_at: "2012-03-27 14:53:59 UTC",
               updated_at: "2012-03-27 14:53:59 UTC"
             }
   end
 
+  def test_it_exists
+    assert Item
+  end
+
   def test_it_has_an_id
     item = Item.new(data, nil)
-
     assert_equal 1, item.id
   end
 
@@ -30,12 +31,12 @@ class ItemTest < Minitest::Test
 
   def test_it_has_a_description
     item = Item.new(data, nil)
-    assert_equal "Nihil autem sit odio inventore deleniti. Est laudantium ratione distinctio laborum. Minus voluptatem nesciunt assumenda dicta voluptatum porro", item.description
+    assert_equal "Nihil autem sit odio inventore deleniti. Est laudantium ratione distinctio laborum. Minus voluptatem nesciunt assumenda dicta voluptatum porro.", item.description
   end
 
   def test_it_has_a_unit_price
     item = Item.new(data, nil)
-    assert_equal 1, item.id
+    assert "75107", item.unit_price
   end
 
   def test_it_has_a_merchant_id
@@ -43,7 +44,7 @@ class ItemTest < Minitest::Test
     assert_equal 1, item.merchant_id
   end
 
-  def test_it_has_a_created_at_date
+  def test_it_has_a_created_at
     item = Item.new(data, nil)
     assert_equal "2012-03-27 14:53:59 UTC", item.created_at
   end
@@ -54,27 +55,22 @@ class ItemTest < Minitest::Test
   end
 
   def test_invoice_items
-      engine = engine_for({
-        items: [{id: 1}, {id: 2}],
-        invoice_items:  [{id: 49, item_id: 1}, {id: 30, item_id: 2}]
-      })
-
-      item1 = engine.item_repository.find_by_id(1)
-      item2 = engine.item_repository.find_by_id(2)
-
-      assert_equal [49], item1.invoice_items.map(&:id)
-      assert_equal [30], item2.invoice_items.map(&:id)
-    end
+    item = Item.new(data.merge(id: 9), FakeRepo.new)
+    assert_equal "found invoice 9", item.invoice_items
+  end
 
   def test_merchant
-    engine = engine_for({
-      items:         [{id: 1}, {id: 2}],
-      merchants:     [{id: 49, item_id: 1}, {id: 30, item_id: 2}]
-    })
+    item = Item.new(data.merge(merchant_id: 4), FakeRepo.new)
+    assert_equal "found merchant 4", item.merchant
+  end
+end
 
-    merchant1 = engine.item_repository.find_merchant_by_merchant_id(49)
-    merchant2 = engine.item_repository.find_merchant_by_merchant_id(30)
-    assert_equal 49, merchant1.id
-    assert_equal 30, merchant2.id
+class FakeRepo
+  def find_invoices(id)
+    "found invoice #{id}"
+  end
+
+  def find_merchants(merchant_id)
+    "found merchant #{merchant_id}"
   end
 end

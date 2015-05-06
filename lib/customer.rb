@@ -3,23 +3,25 @@ class Customer
               :first_name,
               :last_name,
               :created_at,
-              :updated_at
+              :updated_at,
+              :repository
 
   def initialize(data, repository)
-    @id         = data[:id].to_i
-    @first_name = data[:first_name]
-    @last_name  = data[:last_name]
-    @created_at = data[:created_at]
-    @updated_at = data[:updated_at]
-    @repository = repository
+    @id          = data[:id].to_i
+    @first_name  = data[:first_name]
+    @last_name   = data[:last_name]
+    @created_at  = data[:created_at]
+    @updated_at  = data[:updated_at]
+    @repository  = repository
   end
 
   def invoices
-    @repository.find_all_invoices_by_customer_id(id)
+    @invoices ||= repository.find_invoices(id)
   end
 
   def transactions
-    invoices.map { |invoice| invoice.transactions }.flatten
+    @transactions ||= invoices.map do |invoice| invoice.transactions
+    end.flatten
   end
 
   def favorite_merchant
@@ -29,14 +31,19 @@ class Customer
   end
 
   def successful_transactions
-    transactions.select { |transaction| transaction.result == "success" }
+    @successful_transactions ||= transactions.select { |transaction|
+      transaction.result == "success"}
   end
 
   def successful_invoices
-    successful_transactions.map { |transaction| transaction.invoice }
+    @successful_invoices ||= successful_transactions.map do |transaction|
+      transaction.invoice
+    end
   end
 
   def successful_merchants
-    successful_invoices.map { |invoice| invoice.merchant }
+    @successful_merchants ||= successful_invoices.map do |invoice|
+      invoice.merchant
+    end
   end
 end
