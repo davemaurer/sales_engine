@@ -22,7 +22,7 @@ class SalesEngine
     customer_data            = Parser.parse("#{@filepath}/customers.csv")
     @customer_repository     = CustomerRepository.new(customer_data, self)
     invoice_item_data        = Parser.parse("#{@filepath}/invoice_items.csv")
-    @invoice_item_repository = InvoiceItemRepository.new(invoice_item_data, self)
+    @invoice_item_repository = InvoiceItemRepository.new(invoice_item_data,self)
     invoice_data             = Parser.parse("#{@filepath}/invoices.csv")
     @invoice_repository      = InvoiceRepository.new(invoice_data,self)
     item_data                = Parser.parse("#{@filepath}/items.csv")

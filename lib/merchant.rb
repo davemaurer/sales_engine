@@ -49,12 +49,15 @@ attr_reader :id,
       successful_customers.count(customer) }
   end
 
-  def customers_with_pending_invoices
-    unsuccessful_invoices = invoices.reject do |invoice|
+  def unsuccessful_invoices
+    invoices.reject do |invoice|
       invoice.transactions.any? do |transaction|
         transaction.successful?
       end
     end.flatten
+  end
+
+  def customers_with_pending_invoices
     unsuccessful_invoices.map do |invoice|
       invoice.customer
     end
@@ -68,7 +71,7 @@ attr_reader :id,
     else
       total = total_from_all_time
     end
-    BigDecimal.new(total)
+    total
   end
 
   private
