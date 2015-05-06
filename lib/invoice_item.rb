@@ -32,4 +32,8 @@ class InvoiceItem
   def revenue
     @revenue ||= invoice.paid? ? (quantity * unit_price) : 0
   end
+
+  def successful?
+    invoice.paid?
+  end
 end

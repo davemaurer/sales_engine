@@ -65,13 +65,13 @@ class MerchantRepository
     merchants.map { |merchant| merchant.revenue(date) }.reduce(0, :+)
   end
 
-  def most_revenue(x)
+  def most_revenue(top_n)
     merchants.sort_by do |merchant|
       merchant.revenue
-    end.reverse.first(x)
+    end.reverse.first(top_n)
   end
 
-  def most_items(x)
-   merchants.sort_by { |merchant| merchant.items_sold }.reverse.first(x)
+  def most_items(top_n)
+   merchants.sort_by { |merchant| merchant.items_sold }.reverse.first(top_n)
   end
 end

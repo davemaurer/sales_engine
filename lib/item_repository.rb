@@ -85,15 +85,15 @@ class ItemRepository
     engine.find_merchant_by_merchant_id(merchant_id)
   end
 
-  def most_revenue(x)
+  def most_revenue(top_n)
     items.sort_by do |item|
       item.revenue.nil? ? 0 : item.revenue
-    end.reverse.first(x)
+    end.reverse.first(top_n)
   end
 
-  def most_items(x)
+  def most_items(top_n)
     items.sort_by do |item|
       item.quantity_sold.nil? ? 0 : item.quantity_sold
-    end.reverse.first(x)
+    end.reverse.first(top_n)
   end
 end
