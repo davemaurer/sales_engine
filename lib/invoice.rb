@@ -53,9 +53,7 @@ class Invoice
   end
 
   def paid?
-    transactions.count do |transaction|
-      transaction.result == "success"
-    end > 0
+    transactions.any?(&:successful?)
   end
 
   def total
