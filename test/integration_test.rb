@@ -8,138 +8,96 @@ require_relative '../lib/invoice.rb'
 require_relative '../lib/invoice_repository.rb'
 
 class IntegrationTest < Minitest::Test
+  attr_reader :engine
 
   def setup
     filepath = File.expand_path "../fixtures", __FILE__
     @engine = SalesEngine.new(filepath)
-    @engine.startup
+    engine.startup
   end
 
   def test_merchant_has_revenue
-    merchant = @engine.merchant_repository.find_by_id(1)
+    merchant = engine.merchant_repository.find_by_id(1)
     assert_equal 21067.77, merchant.revenue.to_f
   end
 
-  def test_merchant_total_revenue_by_range_of_dates
-    skip
-    date1 = Date.parse("2012-03-07")
-    date2 = Date.parse("2012-03-25")
-    revenue = @engine.merchant_repository.revenue(date1..date2)
-    assert_equal 84694.9, revenue.to_f
-  end
-
   def merchant_find_dates_by_revenue
-    dates_by_revenue = @engine.merchant_repository.dates_by_revenue
+    dates_by_revenue = engine.merchant_repository.dates_by_revenue
     assert_instance_of Date, dates_by_revenue[0]
     assert_equal Date.parse("2012-03-25"), dates_by_revenue[0]
     assert_equal Date.parse("2012-03-21"), dates_by_revenue[3]
     refute_includes(dates_by_revenue, Date.parse("2014-03-25"))
   end
 
-  def test_merchant_find_top_x_dates_by_revenue
-    skip
-    dates_by_revenue = @engine.merchant_repository.dates_by_revenue(3)
-    assert_equal Date.parse("2012-03-25"), dates_by_revenue[0]
-    refute_includes(dates_by_revenue, Date.parse("2012-03-12"))
-  end
-
   def test_merchant_repository_finds_revenue_for_a_date
-    revenue = @engine.merchant_repository.revenue(Date.parse("2012-03-25"))
+    revenue = engine.merchant_repository.revenue(Date.parse("2012-03-25"))
     assert_equal 21067.77, revenue.to_f
   end
 
   def test_merchant_repository_finds_items_by_merchant_id
-    items = @engine.merchant_repository.find_all_items_by_merchant_id(1)
+    items = engine.merchant_repository.find_all_items_by_merchant_id(1)
     assert_equal "Item Qui Esse", items.first.name
   end
 
   def test_merchant_repository_returns_most_revenue
-    most_revenue = @engine.merchant_repository.most_revenue(3)
-    assert_equal "Marvin, Renner and Bauch", most_revenue.first.name
-  end
-
-  def test_merchant_repository_returns_dates_by_revenue
-    dates = @engine.merchant_repository.dates_by_revenue
-    assert_equal Date.parse("2012-03-07"), dates.first
-  end
-
-  def test_merchant_repository_returns_sorted_dates
-    dates = @engine.merchant_repository.sorted_dates
-    assert_equal Date.parse("2012-03-07"), dates.first
+    most_revenue = engine.merchant_repository.most_revenue(3)
+    assert_equal "Johnston, Gleason and O'Keefe", most_revenue.first.name
   end
 
   def test_merchant_can_return_items_sold
-    merchant = @engine.merchant_repository.find_by_id(1)
+    merchant = engine.merchant_repository.find_by_id(1)
     items = merchant.items_sold
     assert_equal 47, items
   end
 
   def test_merchant_has_favorite_customer
-    merchant = @engine.merchant_repository.find_by_id(1)
+    merchant = engine.merchant_repository.find_by_id(1)
     favorite_customer = merchant.favorite_customer
     assert_equal "Joey", favorite_customer.first_name
   end
 
   def test_merchant_returns_customers_with_pending_invoices
-    merchant = @engine.merchant_repository.find_by_id(2)
+    merchant = engine.merchant_repository.find_by_id(2)
     customers = merchant.customers_with_pending_invoices
     assert_equal "Ramona", customers.first.first_name
   end
 
   def test_customers_have_transactions
-    customer = @engine.customer_repository.find_by_id(1)
+    customer = engine.customer_repository.find_by_id(1)
     transactions = customer.transactions
     assert_equal "success", transactions.first.result
   end
 
   def test_customers_have_favorite_merchant
-    customer = @engine.customer_repository.find_by_id(2)
+    customer = engine.customer_repository.find_by_id(2)
     merchant = customer.favorite_merchant
     assert_equal "Shields, Hirthe and Smith", merchant.name
   end
 
   def test_item_repository_can_find_invoices
-    invoices = @engine.item_repository.find_invoices(1)
+    invoices = engine.item_repository.find_invoices(1)
     assert_equal 11, invoices.first.id
   end
 
   def test_item_repository_can_find_merchants
-    merchants = @engine.item_repository.find_merchants(1)
+    merchants = engine.item_repository.find_merchants(1)
     assert_equal "Schroeder-Jerde", merchants.name
   end
 
   def test_item_repository_finds_most_items
-    items = @engine.item_repository.most_items(2)
+    items = engine.item_repository.most_items(2)
     assert_equal 1, items.first.id
   end
 
   def test_item_has_best_day
-    item = @engine.item_repository.find_by_id(1)
+    item = engine.item_repository.find_by_id(1)
     best_day = item.best_day
     assert_equal Date.parse("2012-03-12"), best_day
   end
 
   def test_items_have_revenue
-    item = @engine.item_repository.find_by_id(1)
+    item = engine.item_repository.find_by_id(1)
     revenue = item.revenue
     assert_equal 928.47, revenue.to_f
   end
-
-  def test_customer_has_pending_invoices
-    customer = @engine.customer_repository.find_by_id(3)
-    pending = customer.pending_invoices
-    assert_equal 2, pending.count
-  end
-
-  def test_customer_returns_days_since_activity
-    customer = @engine.customer_repository.find_by_id(3)
-    days = customer.days_since_activity
-    assert_equal 1086, days
-  end
-
-  def test_customer_repository_returns_most_revenue
-    most_rev = @engine.customer_repository.most_revenue
-    assert_equal 1, most_rev
-  end
-
 end
